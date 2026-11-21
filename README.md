@@ -193,7 +193,92 @@ Deliberate differences / limitations:
 
 ---
 
-## 6. Attribution
+## 6. Studio frontend
+
+The Studio is a static SPA served by FastAPI at `/` — no npm, no build step, no
+bundler. It talks to the same API the CLI uses.
+
+- **Dashboard** — renderer/GPU/AI-key readiness pills, clips rendered, average
+  viral score, active pipeline, source minutes, stage monitor and live processing
+  log over SSE.
+- **Composer** — source tabs (URL / upload / reuse), platform, creator presets,
+  clip count, ratio, captions per line, hook length, caption style, Hook V2,
+  B-roll, karaoke, smart trim, BGM, batch filename pattern, advanced pipeline
+  settings (provider, model, encoder, CRF, watermark, Whisper, diarization).
+- **Clips** — 9:16 cards with inline preview, viral score, hook/title/description,
+  hashtags, keywords, copy-metadata and download actions.
+- **Design system** — background `#070B0A`, panels `#0D1412`, cards `#111C19`,
+  glass `blur(12px)`, hairline `rgba(167,255,220,0.14)`, mint `#34F5A8` /
+  `#52FFA8`, greenish-white `#E6FFF5` / `#B8FFE3`, sage `#8FA89E`, off-white
+  `#F2FFF9`; Space Grotesk + JetBrains Mono; glow used only for state and focus.
+
+![Studio dashboard](docs/screenshots/dashboard.png)
+
+![New clip job composer](docs/screenshots/new-job.png)
+
+---
+
+## 7. Build the final app (original prompt)
+
+Use the repository as the reference implementation, or paste this brief into a
+coding agent to reproduce/extend it. It is the original build instruction.
+
+> **Prompt — Verdant Clip Studio**
+>
+> Build a full-stack AI video clipper called **Verdant Clip Studio** that turns a
+> long video URL or upload into ranked vertical clips with burned captions.
+>
+> **Stack:** Python 3.10–3.12, FastAPI, vanilla-JS static SPA (no build step),
+> FFmpeg/ffprobe on `PATH`, Faster-Whisper, yt-dlp/gdown, NumPy/OpenCV/Pillow.
+> JSON file store, one job at a time, SSE progress.
+>
+> **Pipeline:** acquire (YouTube/TikTok/Instagram/Drive/upload) → transcribe
+> (Whisper word timestamps, JSON3 fallback) → AI curation (Gemini default,
+> NVIDIA NIM, or self-hosted vLLM; strict clip JSON, 20–179 s clips, viral score,
+> hook/description/hashtags/keywords) → metadata normalization and QA → optional
+> pyannote diarization → render (encoder detection, face-tracked 9:16 crop,
+> blurred-backdrop fallback, Hook V2, keep-segment trim, ASS karaoke burn-in, BGM
+> ducking, B-roll, watermark, thumbnails) → manifest.
+>
+> **API:** `POST/GET/DELETE /api/jobs`, SSE `/api/jobs/{id}/status`, `/api/upload`
+> (2 GB), `/api/outputs/...`, `/api/settings`, `/api/health`, `/api/ready`,
+> `/api/meta`. Preserve status codes and job states.
+>
+> **Config:** every key from environment only, documented in `.env.example`;
+> never hardcode secrets; mask keys in settings responses.
+>
+> **Presets:** Gaming Highlights, Action Moments, Podcast/Commentary, Vertical
+> Reels/Shorts — tunable clip count, length, hook sensitivity, caption style and
+> batch naming (`{rank}`, `{slug}`, `{date}`).
+>
+> **Design:** dark obsidian `#070B0A`, mint `#34F5A8`, greenish-white text, glass
+> panels, Space Grotesk + JetBrains Mono, restrained glow, scannable clip cards,
+> live log, instant preview/export.
+>
+> **Deliverables:** runnable code, `.env.example`, setup guide, parity notes.
+
+### From clone to running app
+
+```bash
+git clone https://github.com/DHSDevelopers/verdant-clip-studio.git
+cd verdant-clip-studio
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env        # add GOOGLE_API_KEY
+uvicorn web.api.app:app --host 0.0.0.0 --port 8000
+```
+
+Open `http://localhost:8000`, pick a preset, paste a URL and start clipping. For
+the CLI use `python main.py --url "..."`. Where to extend: `clipping/studio/` for
+render/composition, `clipping/providers/` for a new model provider,
+`web/api/routes/` for endpoints and `web/frontend/assets/` for UI.
+
+The GitHub Pages site for this repository renders this README only; the Studio
+and pipeline require a Python host with FFmpeg (local, Docker, or a VM).
+
+---
+
+## 8. Attribution
 
 Backend architecture and pipeline behavior are derived from
 `NaufalRizqullah/opensource-clipping` (MIT). All code in this repository is an

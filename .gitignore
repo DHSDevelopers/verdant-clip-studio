@@ -1,0 +1,42 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# runtime artifacts
+outputs/
+uploads/
+custom_fonts/
+*.ts
+*.mp4
+*.ass
+*.srt
+*.json3
+*.tflite
+*.pt
+glitch_*.ts
+highlight_rank_*
+thumbnail_rank_*
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# node (legacy dashboard)
+node_modules/
+dist/
+
+# local verification tools / runtime
+.tools/
+.venv/
+.server.log
+.server.pid
+
+# os
+.DS_Store
+Thumbs.db

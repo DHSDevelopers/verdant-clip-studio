@@ -1,0 +1,21 @@
+# ------------------------------------------------------------------------------
+# Lean install: Studio UI + renderer + yt-dlp ingestion on CPU.
+# Whisper transcription (faster-whisper/torch) and podcast diarization
+# (pyannote) are NOT included — install requirements.txt for those.
+# YouTube JSON3 subtitles (--use-dlp-subs) can feed the transcript without Whisper.
+# ------------------------------------------------------------------------------
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+python-dotenv
+httpx>=0.27,<1
+jsonschema>=4.23,<5
+numpy<2.0.0
+opencv-python-headless
+Pillow
+yt-dlp
+gdown
+google-genai
+openai>=2.6,<3
+requests

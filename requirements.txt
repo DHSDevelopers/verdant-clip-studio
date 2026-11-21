@@ -1,0 +1,30 @@
+# ------------------------------------------------------------------------------
+# Full runtime (GPU recommended). Install FFmpeg separately as a system binary.
+# ------------------------------------------------------------------------------
+yt-dlp
+faster-whisper
+google-genai
+openai>=2.6,<3
+httpx>=0.27,<1
+jsonschema>=4.23,<5
+numpy<2.0.0
+mediapipe
+opencv-python
+Pillow
+requests
+python-dotenv
+google-api-python-client
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+ultralytics
+pyannote.audio
+torch
+torchaudio
+gdown
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+edge-tts
+tqdm

@@ -1,0 +1,32 @@
+[project]
+name = "verdant-clip-studio"
+version = "1.16.0"
+description = "AI auto-clipper and teaser generator — long-form video into short-form vertical cuts"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "yt-dlp[default]",
+    "faster-whisper",
+    "google-genai",
+    "openai>=2.6,<3",
+    "httpx>=0.27,<1",
+    "jsonschema>=4.23,<5",
+    "mediapipe",
+    "opencv-python",
+    "Pillow",
+    "requests",
+    "python-dotenv",
+    "ultralytics",
+    "gdown",
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "pydantic",
+    "edge-tts",
+]
+
+[project.scripts]
+verdant-clip = "main:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
